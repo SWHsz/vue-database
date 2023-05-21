@@ -1,0 +1,11 @@
+.datepickerPopperClass.el-date-picker{
+    .el-scrollbar:nth-child(2){
+        display: none;
+    }
+    .el-scrollbar:nth-child(3){
+        display: none;
+    }
+    .el-time-spinner__wrapper{
+        width:100%;
+    }
+}
