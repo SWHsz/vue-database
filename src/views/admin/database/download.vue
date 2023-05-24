@@ -61,7 +61,7 @@ export default{
                 const link = document.createElement('a')
                 let resdata = "\ufeff" + res.data
                 console.log(resdata)
-                let blob = new Blob([res.data],{type: 'text/csv;charset=utf-8'})
+                let blob = new Blob([res.data],{type: 'text/csv,charset=utf-8'})
                 console.log(blob)
                 link.style.display = 'none'
                 link.href = URL.createObjectURL(blob)

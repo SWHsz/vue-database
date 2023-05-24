@@ -74,7 +74,7 @@ export default {
         getTableTypeList() {
             let that = this
             axios({
-                url: '/api/query/cell_name',
+                url: '/api/query/KPI_tbCell_name',
                 method: 'get',
                 headers: {
                     'Authorization': "Bearer "+getToken()
