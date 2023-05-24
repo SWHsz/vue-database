@@ -49,12 +49,14 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/user',
+    path: '/user/analysis',
     name: 'user',
-    meta: {icon: "dbm d-icon-zujian" },
+    meta: {icon: "dbm d-icon-zujian",title:"业务分析" },
     component: layout,
     children:[
-      {path:"c2i",name:"c2i",meta:{title:"主邻小区C2I干扰分析",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/user/c2i')}
+      {path:"c2i",name:"c2i",meta:{title:"主邻小区C2I干扰分析",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/user/c2i')},
+      {path:"c2i3",name:"c2i3",meta:{title:"重叠覆盖干扰小区三元组分析",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/user/c2i3')},
+      {path:"graph",name:"graph",meta:{title:"网络干扰结构分析",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/user/graph')},
     ]
 
   },

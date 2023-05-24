@@ -38,19 +38,19 @@ export default{
         return {
         table_type_list:[
             {
-                value: 'config',
+                value: 'tbcell',
                 label: '网络配置信息'
             },
             {
-                value: 'kpi',
+                value: 'tbkpi',
                 label: 'KPI指标信息'
             },
             {
-                value: 'prb',
+                value: 'tbprb',
                 label: 'PRB干扰信息'
             },
             {
-                value: 'mro',
+                value: 'tbmrodata',
                 label: 'MRO数据'
             }
         ]

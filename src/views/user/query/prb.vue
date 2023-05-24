@@ -19,6 +19,15 @@
             :value="item.value"
         ></el-option>
     </el-select>
+    请选择查询粒度：
+    <el-select v-model="granularity" filterable placeholder="请选择" @change="$forceUpdate()">
+        <el-option
+            v-for="item in granularity_list"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+        ></el-option>
+    </el-select>
 </div>
     <div class="left-bar">
         <div id="echart" style="width: 100%;height: 100%;"></div>
@@ -62,7 +71,13 @@ export default {
             echart:"",
             echartdata:[],
             prb_list:[],
-            prb:0
+            prb:0,
+            granularity_list:[
+                {value:"perQuarter",label:"每15分钟"},
+                {value:"perHour",label:"小时"},
+                
+            ],
+            granularity:"perQuarter"
         }
     }, 
     mounted() {
@@ -81,7 +96,7 @@ export default {
         getTableTypeList() {
             let that = this
             axios({
-                url: '/api/query/ENodeB_name',
+                url: '/api/query/PRB_ENodeB_name',
                 method: 'get',
                 headers: {
                     'Authorization': "Bearer "+getToken()
@@ -102,14 +117,39 @@ export default {
         },
         draw() {
             let that = this
+            if(this.echart!="")
+                this.echart.dispose()
             this.echart = echarts.init(document.getElementById('echart'));
-            let option = {
-                title: {
-                    text: 'PRB上检测到的干扰噪声的平均值 (毫瓦分贝)'
-                },
+            let dataseries = []
+            let xdata = []
+            let data=[]
+            for(let i=0;i<this.echartdata.count;i++){
                 
-            };
-            this.echart.setOption(option);
+                xdata.push(this.echartdata.list[i].Time)
+                data.push(this.echartdata.list[i].data)
+            }
+            dataseries = [{
+                name: 'PRB上检测到的干扰噪声的平均值 (毫瓦分贝)',
+                type: 'line',
+                data: data,
+                itemStyle : { normal: {label : {show: true}}}
+            }]
+            this.echart.setOption( 
+                {
+                    xAxis: {
+                        type: 'category',
+                        data: xdata
+                    },
+                    yAxis: {                    
+                        type: 'value',
+                        scale: true,
+                    },
+                    series:dataseries,
+                    legend: {
+                        data: ['PRB上检测到的干扰噪声的平均值 (毫瓦分贝)']
+                    },
+                }
+            )
             this.echart.resize({
                 width: 'auto',
                 height: '500%'
@@ -125,8 +165,8 @@ export default {
                     'Authorization': "Bearer "+getToken()
                 },
                 params:{
-                    SECTOR_NAME:that.table_type,
-                    Mode:"perQuarter",
+                    ENODEB_NAME:that.table_type,
+                    Mode:that.granularity,
                     PRB:that.prb,
                     StartTime:that.date1+":00:00",
                     EndTime:that.date2+":00:00"

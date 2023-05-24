@@ -15,17 +15,9 @@
         <br/>
         <br/>
 
-    <!-- 上传地址为/upload/{表名}，只能上传一个csv或者xls或者xlsx文件，使用bearer认证-->
-        <el-upload 
-            action=""
-            limit="1"
-            :show-file-list="true"
-            :http-request="uploadFile"
-            :before-upload="beforeUpload"
-            accept=".csv,.xls,.xlsx"
-            >
-        <el-button size="small" type="primary">下载文件</el-button>
-        </el-upload>
+
+        <el-button size="small" type="primary" @click="download">下载文件</el-button>
+        
     </div>
 </template>
 
@@ -37,67 +29,51 @@ export default{
         return {
         table_type_list:[
             {
-                value: 'config',
+                value: 'tbcell',
                 label: '网络配置信息'
             },
             {
-                value: 'kpi',
+                value: 'tbkpi',
                 label: 'KPI指标信息'
             },
             {
-                value: 'prb',
-                label: 'PRB干扰信息'
-            },
-            {
-                value: 'mro',
-                label: 'MRO数据'
+                value: 'tbc2inew',
+                label: '主邻小区C2I干扰分析'
             }
-        ]
+        ],
+        table_type: 'tbcell',
         }
     },
     methods:{
-        beforeUpload(file) {
-            const isCSV = file.type === 'text/csv'
-            const isXLS = file.type === 'application/vnd.ms-excel'
-            const isXLSX = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            
-            if (!isCSV && !isXLS && !isXLSX) {
-                this.$message.error('上传文件只能是csv/xls/xlsx格式!')
-            }
-            return (isCSV || isXLS || isXLSX)
-        },
-        uploadFile(param) {
-            let formData = new FormData();
-
-            formData.append('file', param.file);
-            let table_type = this.table_type;
-            let __this = this;
+        download(){
+            let that = this
             axios({
-                url: '/api/database/upload/' + table_type,
-                method: 'post',
-                data: formData,
+                url: '/api/download/'+that.table_type,
+                method: 'get',
+                responseType: 'blob',
                 headers:{
-                    "Authorization": "Bearer " + getToken(),
-                    "Content-Type": "multipart/form-data"
-                
+                    'Authorization': "Bearer "+getToken(),
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
                 }
-            }).then(
-                    (res) => {
-                        __this.$message({
-                            message: '上传成功',
-                            type: 'success'
-                        });
-                        __this.$router.go(0);
-                    }
-                ).catch(
-                    (err) => {
-                        __this.$message({
-                            message: '上传失败',
-                            type: 'error'
-                        });
-                        __this.$router.go(0);
-                    }
-                )                    
+            ).then(res => {
+                console.log(res)
+                const link = document.createElement('a')
+                let blob = new Blob([res.data],{type: 'text/csv;charset=utf-8'})
+                link.style.display = 'none'
+                link.href = URL.createObjectURL(blob)
+                link.download = that.table_type+'.csv'
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+                that.$message({
+                    message: '下载成功',
+                    type: 'success'
+                })
+            }).catch(err => {
+                console.log(err)
+            })
+
         }
     }
     

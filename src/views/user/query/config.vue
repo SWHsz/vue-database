@@ -136,6 +136,9 @@ export default {
                 that.loading = false
             })
 
+        },
+        current_change(val) {
+            this.currentPage = val
         }
     }
 }

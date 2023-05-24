@@ -1,6 +1,6 @@
 <template>
     <div>
-        相互之间最小的干扰率：
+        相互之间最小干扰率的最小值：
         <el-input-number v-model="min" :min="0"  label="最小值" @change="$forceUpdate()"></el-input-number>
         
         <el-button type="primary" @click="submit">提交</el-button>
@@ -26,14 +26,10 @@ export default{
         return {
             min: 0,
             tableColumn:[
-                {prop:"SCELL",label:"主小区 ID"},
-                {prop:"NCELL",label:"邻小区 ID"},
-                {prop:"C2I_Mean",label:"主邻小区 RSRP 差值的均值"},
-                {prop:"Std",label:"主邻小区 RSRP 差值的标准差"},
-                {prop:"PrbC2I9",label:"主邻小区 RSRP 差值小于 9 的概率"},
-                {prop:"PrbABS6",label:"主邻小区 RSRP 差值绝对值小于 6 的概率"},
-                {prop:"num",label:"将<LteScRSRP, LteNcRSRP>RSRP 测量值对的条数"}
-
+                {prop:"CELL_A",label:"A小区ID"},
+                {prop:"CELL_B",label:"B小区ID"},
+                {prop:"CELL_C",label:"C小区ID"},
+                {prop:"x",label:"相互之间最小的干扰率"}
             ],
             tableData: [],
             currentPage: 1,
@@ -50,10 +46,10 @@ export default{
             this.currentPage = 1
             let that = this
             axios({
-                url:"/api/c2inew",
+                url:"/api/c2i3",
                 method:"get",
                 params:{
-                    min_num: this.min
+                    x: this.min
                 },
                 headers:{
                     'Authorization':"Bearer "+getToken()
@@ -62,15 +58,13 @@ export default{
                 console.log(res.data.data);
                 for(let i=0;i<res.data.count;i++){
                     that.tableData.push({
-                        SCELL:res.data.data[i].SCELL,
-                        NCELL:res.data.data[i].NCELL,
-                        C2I_Mean:res.data.data[i].C2I_Mean,
-                        Std:res.data.data[i].Std,
-                        PrbC2I9:res.data.data[i].PrbC2I9,
-                        PrbABS6:res.data.data[i].PrbABS6,
-                        num:res.data.data[i].num
+                        CELL_A:res.data.data[i].CEll_A,
+                        CELL_B:res.data.data[i].CEll_B,
+                        CELL_C:res.data.data[i].CEll_C,
+                        x:res.data.data[i].x
                     })
                 }
+                console.log(that.tableData);
                 that.total = res.data.count
                 that.loading = false
             })
