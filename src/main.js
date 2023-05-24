@@ -23,6 +23,14 @@ import '@/assets/iconfont/iconfont.css';
 
 // import './mock' // 模拟数据
 import './permission' // 路由权限控制
+import FileSaver from "file-saver";
+import * as XLSX from 'xlsx';
+import XLSXS from "xlsx-style";
+Vue.prototype.FileSaver = FileSaver;
+Vue.prototype.XLSX = XLSX;
+Vue.prototype.XLSXS = XLSXS;	
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

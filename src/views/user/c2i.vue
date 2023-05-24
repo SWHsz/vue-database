@@ -11,7 +11,12 @@
             </el-table>
             <div style="text-align:center">
             <el-pagination hide-on-single-page background layout="prev, pager, next,total" :total="total" :page-size="pagesize" @current-change="current_change"></el-pagination>
-
+            <exportExcel :id="'exportTab'" :name="'导出表格'"></exportExcel>
+        <!-- 隐藏下表 -->
+        <el-table :data="tableData" border id="exportTab" v-show="f">
+            <el-table-column align="center" label="序号" type="index" width="70px" show-overflow-tooltip></el-table-column>
+            <el-table-column v-for="item in tableColumn" :key="item.index" :prop="item.prop" :label="item.label" show-overflow-tooltip></el-table-column>
+        </el-table>
         </div>
         </div>
     </div>
@@ -21,7 +26,13 @@
 import { TableColumn } from 'element-ui';
 import axios from 'axios'
 import { getToken } from '@/utils/auth'
+import exportExcel from '@/components/exportExcel.vue'
+
 export default{
+    components:{
+        exportExcel
+    },
+    prop:{},
     data() {
         return {
             min: 0,

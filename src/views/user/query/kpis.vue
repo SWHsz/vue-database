@@ -153,6 +153,14 @@ export default {
                     legend: {
                         data: this.checkedlist
                     },
+                    toolbox:{
+                        show:true,
+                        feature:{
+                            saveAsImage:{
+                                show:true
+                            }
+                        }
+                    }
                 }
             )
             this.echart.resize({

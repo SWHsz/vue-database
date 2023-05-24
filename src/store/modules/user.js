@@ -73,9 +73,6 @@ const user = {
         commit('SET_STATUS', false);
         commit('SET_USERNAME', null);
         commit('SET_ROLES', []);
-        commit('SET_NAME', null);
-        commit('SET_AVATAR', null);
-        commit('SET_INTRODUCTION', null);
         removeToken();
         resolve();
       })

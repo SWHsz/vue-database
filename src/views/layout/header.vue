@@ -20,7 +20,7 @@
           </div>
           <el-dropdown @command="userCommand">
             <span class="userinfo-inner">
-              <img :src="avatar" /> {{name}}
+              <img src="@/assets/logo.png" /> {{name}}
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="usercenter">个人中心</el-dropdown-item>
@@ -39,19 +39,22 @@ export default {
   name: "header",
   components: {},
   data() {
-    return {};
+    return {
+      name: "admin",
+      isLogin: true
+    };
   },
   props: {},
-  computed: {
-    ...mapGetters(["avatar", "name", "introduction", "isLogin"])
-  },
+  
   methods: {
     userCommand(command) {
+      console.log(command);
       switch (command) {
         case "usercenter":
           break;
         case "logout":
           this.$store.dispatch("LogOut").then(() => location.reload());
+          this.$router.push({ path: "/login" });
           break;
       }
     }

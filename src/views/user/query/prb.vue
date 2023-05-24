@@ -148,6 +148,14 @@ export default {
                     legend: {
                         data: ['PRB上检测到的干扰噪声的平均值 (毫瓦分贝)']
                     },
+                    toolbox:{
+                        show:true,
+                        feature:{
+                            saveAsImage:{
+                                show:true
+                            }
+                        }
+                    }
                 }
             )
             this.echart.resize({

@@ -14,10 +14,19 @@
     </el-select>
     
     <el-button type="primary" @click="search">查询</el-button>
+    <br/>
 </div>
 <!-- 分页的表格 -->
     <div>
+        
         <el-table :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)" border size="mini" v-loading="loading">
+            <el-table-column align="center" label="序号" type="index" width="70px" show-overflow-tooltip></el-table-column>
+            <el-table-column v-for="item in tableColumn" :key="item.index" :prop="item.prop" :label="item.label" show-overflow-tooltip></el-table-column>
+        </el-table>
+        
+        <exportExcel :id="'exportTab'" :name="'导出表格'"></exportExcel>
+        <!-- 隐藏下表 -->
+        <el-table :data="tableData" border id="exportTab" v-show="f">
             <el-table-column align="center" label="序号" type="index" width="70px" show-overflow-tooltip></el-table-column>
             <el-table-column v-for="item in tableColumn" :key="item.index" :prop="item.prop" :label="item.label" show-overflow-tooltip></el-table-column>
         </el-table>
@@ -25,6 +34,7 @@
             <el-pagination hide-on-single-page background layout="prev, pager, next,total" :total="total" :page-size="pagesize" @current-change="current_change"></el-pagination>
 
         </div>
+
     </div>
 </div>
 
@@ -33,7 +43,13 @@
 <script>
 import axios from 'axios'
 import { getToken } from '@/utils/auth'
-export default {
+import FileSaver from 'file-saver'
+import exportExcel from '@/components/exportExcel.vue'
+export default {  
+    components:{
+        exportExcel
+    },
+    prop:{},
     data() {
         return {
             table_type_list: [],
@@ -42,6 +58,7 @@ export default {
             currentPage: 1,
             pagesize: 20,
             loading: false,
+            f:false,
             tableColumn:[
                 {prop:"CITY",label:"城市"},
                 {prop:"SECTOR_ID",label:"小区ID"},
@@ -57,9 +74,11 @@ export default {
                 {prop:"HEIGHT",label:"天线挂高"},
                 {prop:"ELECTTILT",label:"小区天线电下倾角"},
                 {prop:"MECHTILT",label:"小区天线机械下倾角"},
-                {prop:"TOTLETILT",label:"总下倾角"}
+                {prop:"TOTLETILT",label:"总下倾角"},
+                
 
-            ]
+            ],
+            downloadLoading: false,
 
         }
     },
@@ -67,6 +86,18 @@ export default {
         this.getTableTypeList()
     },
     methods: {
+        exportExcel(){
+            console.log(this.id)
+            console.log(document.querySelector('#out-table'))
+            var wb = this.XLSX.utils.table_to_book(document.querySelector('#'+this.id),{raw:true})
+            var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+            try {
+                FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), '小区信息.xlsx')
+            } catch (e) {
+                if (typeof console !== 'undefined') console.log(e, wbout)
+            }
+            return wbout
+        },
         getTableTypeList() {
             let that = this
             axios({

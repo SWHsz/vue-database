@@ -3,11 +3,11 @@ import store from '../store'
 
 
 export function logout() {
-  // store.dispatch("FedLogOut")
-  return request({
-    url: '/user/logout',
-    method: 'post'
-  })
+  store.dispatch("FedLogOut")
+  // return request({
+  //   url: '/user/logout',
+  //   method: 'post'
+  // })
 }
 
 export function getUserInfo(token) {

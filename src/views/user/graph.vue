@@ -1,5 +1,8 @@
 <template>
-    <img :src="picurl" alt="网络干扰结构分析" style="width:100%;height:100%;"/>
+    <div>
+    <span v-show="loadingLoad">正在加载</span>
+    <img :src="picurl" alt="网络干扰结构分析" style="width:100%;height:100%;" v-show="!loadingLoad"/>
+    </div>
 </template>
 
 <script>
@@ -8,14 +11,17 @@ import { getToken } from '@/utils/auth'
 export default {
     data() {
         return {
-            picurl: ""
+            picurl: "",
+            loadingLoad: false,
         }
     },
     mounted() {
+
         this.getpic()
     },
     methods:{
         getpic() {
+            this.loadingLoad = true
             let that = this
             axios({
                 method: 'get',
@@ -28,8 +34,10 @@ export default {
                 console.log(res)
                 let url = window.URL.createObjectURL(new Blob([res.data]))
                 that.picurl = url
+                that.loadingLoad = false
             }).catch(err => {
                 console.log(err)
+                that.loadingLoad = false
             })
         },
         arrayBufferToBase64(buffer) {

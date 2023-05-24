@@ -122,10 +122,10 @@ export default {
                         // this.$store.dispatch('GenerateRoutes', { roles })
                         if(this.ruleForm.username === 'root'){
                           console.log('root');
-                          this.$router.push({ path: "/admin/user" });
+                          this.$router.push({ path: "/" });
                         }
                         else{
-                          this.$router.push({ path: "/user" });
+                          this.$router.push({ path: "/" });
                         }
                     })
                     .catch(err => {
