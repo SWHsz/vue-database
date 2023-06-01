@@ -23,7 +23,6 @@
               <img src="@/assets/logo.png" /> {{name}}
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="usercenter">个人中心</el-dropdown-item>
               <el-dropdown-item divided command="logout">注销登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
@@ -40,12 +39,16 @@ export default {
   components: {},
   data() {
     return {
-      name: "admin",
+      name: "",
       isLogin: true
     };
   },
   props: {},
-  
+  mounted() {
+    this.name = this.$store.getters.username;
+    console.log(this.name);
+    // this.isLogin = this.$store.getters.isLogin;
+  },
   methods: {
     userCommand(command) {
       console.log(command);

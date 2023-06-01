@@ -11,7 +11,7 @@
     <el-table-column label="操作">
       <template slot-scope="scope">
         <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        <el-button size="mini" type="success" @click="handleActive(scope.$index,scope.row)">激活</el-button>
+        <el-button size="mini" type="success" @click="handleActive(scope.$index,scope.row)" v-if="scope.row.display_active">激活</el-button>
       </template>
       
     </el-table-column>
@@ -49,7 +49,7 @@ export default {
           console.log(response.data);
           __this.tableData = [];
           for (var i = 0; i < response.data.length; i++) {
-            var tmp = {is_admin: "", is_active: "",username:""};
+            var tmp = {is_admin: "", is_active: "",username:"",display_active:true};
             if (response.data[i].is_admin == true) {
               tmp.is_admin = "是"
             } else {
@@ -57,6 +57,7 @@ export default {
             }
             if (response.data[i].is_active == true) {
               tmp.is_active = "激活"
+              tmp.display_active = false;
             } else {
               tmp.is_active = "未激活"
             } 

@@ -1,9 +1,3 @@
-/*
- * @Author: calebman 
- * @Date: 2018-03-13 17:35:13 
- * @Last Modified by: calebman
- * @Last Modified time: 2018-05-09 10:43:48
- */
 
 import Vue from 'vue';
 import Vuex from 'vuex';

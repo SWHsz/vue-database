@@ -116,7 +116,6 @@ export default {
                         this.$store.commit('SET_USERNAME', this.ruleForm.username);
                         this.$store.commit('SET_TOKEN', res.data.access_token);
                         setToken(res.data.access_token);
-                        this.$store.commit('SET_USERNAME', this.ruleForm.username);
                         this.$store.commit('SET_STATUS', true);
                         
                         // this.$store.dispatch('GenerateRoutes', { roles })
