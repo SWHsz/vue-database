@@ -23,12 +23,20 @@ export const asyncRouterMap = [
     children: [
       { path: "userlist", name: "user", meta: { title: "用户列表", icon: "dbm d-icon-qiapian" }, component: user }
     ]
-
+  },
+  {
+    path:"/user/mro",
+    name:"mro",
+    meta:{title:"MRO数据管理",icon:"dbm d-icon-zujian"},
+    component:layout,
+    children:[
+      {path:"upload",name:"upload",meta:{title:"MRO数据上传",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/user/mro')},
+    ]
   },
   {
     path:'/admin/dbconfig',
     name:'dbconfig',
-    meta:{title:"数据库配置",icon:"dbm d-icon-zujian",roles:["admin"]},
+    meta:{title:"系统配置",icon:"dbm d-icon-zujian",roles:["admin"]},
     component:layout,
     children:[
       {path:"query",name:"query",meta:{title:"配置查询",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/admin/dbconfig/query')},
@@ -55,7 +63,6 @@ export const asyncRouterMap = [
       { path:"enodeb",name:"enodeb",meta:{title:"基站信息查询",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/user/query/enodeb')},
       { path:"kpis",name:"kpis",meta:{title:"指标信息查询",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/user/query/kpis')},
       { path:"prb",name:"prb",meta:{title:"PRB信息查询",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/user/query/prb')},
-      
     ]
   },
   {
