@@ -26,6 +26,16 @@ export const asyncRouterMap = [
 
   },
   {
+    path:'/admin/dbconfig',
+    name:'dbconfig',
+    meta:{title:"数据库配置",icon:"dbm d-icon-zujian",roles:["admin"]},
+    component:layout,
+    children:[
+      {path:"query",name:"query",meta:{title:"配置查询",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/admin/dbconfig/query')},
+      {path:"modify",name:"modify",meta:{title:"配置修改",icon:"dbm d-icon-qiapian"},component:()=>import('@/views/admin/dbconfig/modify')},
+    ]
+  },
+  {
     path: '/admin/database',
     name: 'database',
     meta: { title: "数据管理", icon: "dbm d-icon-zujian" ,roles:["admin"]},

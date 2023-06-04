@@ -59,7 +59,7 @@ export default{
             ).then(res => {
                 console.log(res)
                 const link = document.createElement('a')
-                let resdata = "\ufeff" + res.data
+                let resdata = res.data
                 console.log(resdata)
                 let blob = new Blob([res.data],{type: 'text/csv,charset=utf-8'})
                 console.log(blob)
