@@ -2,14 +2,14 @@
     <div>
     <div>
             数据库物理分区：
-            <el-input class="i1" v-model="partition" label-width="140px"></el-input>
+            <el-input class="i1" v-model="partition" style="width: 200px; margin-left: 10px"></el-input>
     </div>
     <div>
-        数据库连接时长：<el-input class="i2" v-model="connect_time" label-width="140px">
+        数据库连接时长：<el-input class="i2" v-model="connect_time" style="width: 200px; margin-left: 10px">
         </el-input>
     </div>
     <div>
-        数据库缓冲区大小：<el-input class="i3" v-model="buffer_size" label-width="140px">
+        数据库缓冲区大小：<el-input class="i3" v-model="buffer_size" style="width: 200px; margin-left: 10px">
         </el-input>
     </div>
     <el-button type="primary" @click="modify">提交</el-button>
